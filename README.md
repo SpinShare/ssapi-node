@@ -1,4 +1,4 @@
-# ssapi_node
+# ssapi-node
 NodeJS wrapper for the SpinShare API
 
 ## API Documentation

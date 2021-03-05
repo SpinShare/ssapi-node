@@ -1,5 +1,5 @@
 {
-  "name": "ssapi_node",
+  "name": "ssapi-node",
   "version": "1.0.1",
   "description": "NodeJS wrapper for the SpinShare API",
   "main": "index.js",
