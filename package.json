@@ -1,0 +1,24 @@
+{
+  "name": "ssapi-node",
+  "version": "2.0.0",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "vitest",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^3.0.8",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.8"
+  },
+  "dependencies": {
+    "axios": "^1.8.2"
+  }
+}
