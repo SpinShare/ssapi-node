@@ -1,4 +1,4 @@
-# SpinShare - JS API Client
+# SpinShare - JavaScript API Wrapper
 A simple API wrapper for SpinSha.re.
 
 ## Overview
@@ -8,12 +8,12 @@ A simple API wrapper for SpinSha.re.
 - [Documentation](#documentation)
 
 ### Setup
-- Install via `npm install @spinshare/api`
+- Install via `npm install @spinshare/api-js`
 
 ### Usage
 #### Open APIs example
 ```js
-import SpinShareClient from "@spinshare/api";
+import SpinShareClient from "@spinshare/api-js";
 const client = new SpinShareClient();
 
 (async () => {
@@ -24,7 +24,7 @@ const client = new SpinShareClient();
 
 #### Connect APIs example
 ```js
-import SpinShareClient from "@spinshare/api";
+import SpinShareClient from "@spinshare/api-js";
 const connectApiKey = "85ec933f4978c45a3418268effebd3f6";
 const connectApiCode = "18faf7";
 
