@@ -22,18 +22,25 @@ class SpinShareClient {
 
     /**
      * @param {string} query - The search term or keywords to find matching charts.
-     * @param {boolean} includeEasy - Whether to include charts with the "Easy" difficulty.
-     * @param {boolean} includeNormal - Whether to include charts with the "Normal" difficulty.
-     * @param {boolean} includeHard - Whether to include charts with the "Hard" difficulty.
-     * @param {boolean} includeExpert - Whether to include charts with the "Expert" difficulty.
-     * @param {boolean} includeXD - Whether to include charts with the "XD" difficulty.
-     * @param {number} ratingFrom - The minimum rating value to filter the charts.
-     * @param {number} ratingTo - The maximum rating value to filter the charts.
-     * @param {boolean} showExplicit - Whether to include explicit content in the results.
+     * @param {object} options - Options
+     * @param {boolean} options.diffEasy - Whether to include charts with the "Easy" difficulty.
+     * @param {boolean} options.diffNormal - Whether to include charts with the "Normal" difficulty.
+     * @param {boolean} options.diffHard - Whether to include charts with the "Hard" difficulty.
+     * @param {boolean} options.diffExpert - Whether to include charts with the "Expert" difficulty.
+     * @param {boolean} options.diffXD - Whether to include charts with the "XD" difficulty.
+     * @param {number} options.diffRatingFrom - The minimum rating value to filter the charts.
+     * @param {number} options.diffRatingTo - The maximum rating value to filter the charts.
+     * @param {boolean} options.showExplicit - Whether to include explicit content in the results.
      * @return {Promise<Array>} A promise that resolves to an array of charts matching the search criteria.
      */
-    async searchCharts(query, includeEasy, includeNormal, includeHard, includeExpert, includeXD, ratingFrom, ratingTo, showExplicit) {
+    async searchCharts(query, options = {}) {
+        const apiUrl = `${this.apiBase}/searchCharts`;
+        const response = await this.#postOpen(apiUrl, {
+            searchQuery: query,
+            ...options
+        });
 
+        return response.data;
     }
 
     /**
@@ -41,10 +48,20 @@ class SpinShareClient {
      * @returns {Promise<Object>}
      */
     async searchPlaylists(query){
+        const apiUrl = `${this.apiBase}/searchPlaylists`;
+        const response = await this.#postOpen(apiUrl, {
+            searchQuery: query,
+        });
 
+        return response.data;
     }
     async searchUsers(query){
+        const apiUrl = `${this.apiBase}/searchUsers`;
+        const response = await this.#postOpen(apiUrl, {
+            searchQuery: query,
+        });
 
+        return response.data;
     }
 
     async getNewCharts(offset) {
@@ -161,6 +178,13 @@ class SpinShareClient {
 
     async #getOpen(endpoint, params) {
         const response = await axios.get(endpoint, {});
+        this.#checkResponse(response.data);
+
+        return response.data;
+    }
+
+    async #postOpen(endpoint, params) {
+        const response = await axios.post(endpoint, JSON.stringify(params), {});
         this.#checkResponse(response.data);
 
         return response.data;
