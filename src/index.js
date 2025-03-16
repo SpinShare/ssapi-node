@@ -4,6 +4,10 @@ class SpinShareClient {
     apiBase = "https://spinsha.re/api";
     connectApiKey = "";
 
+    constructor(newConnectApiKey = "") {
+        this.connectApiKey = newConnectApiKey;
+    }
+
     /**
      * @param {string} newApiBase
      * @return {void}
