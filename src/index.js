@@ -203,6 +203,11 @@ class SpinShareClient {
         return response;
     }
 
+    /**
+     * Returns more detailled information about a playlist.
+     * @param playlistId
+     * @returns {Promise<*>}
+     */
     async getPlaylistDetail(playlistId) {
         const apiUrl = `${this.apiBase}/playlist/${playlistId}`;
         const response = await this.#getOpen(apiUrl, {});
@@ -210,30 +215,59 @@ class SpinShareClient {
         return response.data;
     }
 
+    /**
+     * Returns a general overview of information about a user.
+     * @param userId
+     * @returns {Promise<*>}
+     */
     async getUserDetail(userId) {
         const apiUrl = `${this.apiBase}/user/${userId}`;
         const response = await this.#getOpen(apiUrl, {});
 
         return response.data;
     }
+
+    /**
+     * Returns all public charts of a user.
+     * @param userId
+     * @returns {Promise<*>}
+     */
     async getUserCharts(userId) {
         const apiUrl = `${this.apiBase}/user/${userId}/charts`;
         const response = await this.#getOpen(apiUrl, {});
 
         return response.data;
     }
+
+    /**
+     * Returns all playlists of a user.
+     * @param userId
+     * @returns {Promise<*>}
+     */
     async getUserPlaylists(userId) {
         const apiUrl = `${this.apiBase}/user/${userId}/playlists`;
         const response = await this.#getOpen(apiUrl, {});
 
         return response.data;
     }
+
+    /**
+     * Returns all reviews of a user.
+     * @param userId
+     * @returns {Promise<*>}
+     */
     async getUserReviews(userId) {
         const apiUrl = `${this.apiBase}/user/${userId}/reviews`;
         const response = await this.#getOpen(apiUrl, {});
 
         return response.data;
     }
+
+    /**
+     * Returns all SpinPlays of a user.
+     * @param userId
+     * @returns {Promise<*>}
+     */
     async getUserSpinPlays(userId) {
         const apiUrl = `${this.apiBase}/user/${userId}/spinplays`;
         const response = await this.#getOpen(apiUrl, {});
@@ -241,6 +275,10 @@ class SpinShareClient {
         return response.data;
     }
 
+    /**
+     * Returns the mappool of the current tournament.
+     * @returns {Promise<*>}
+     */
     async getTournamentMappool() {
         const apiUrl = `${this.apiBase}/tournament/mappool`;
         const response = await this.#getOpen(apiUrl, {});
