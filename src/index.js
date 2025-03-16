@@ -189,9 +189,7 @@ export class SpinShareClient {
      */
     async getChartDownload(chartIdOrReference) {
         const apiUrl = `${this.apiBase}/song/${chartIdOrReference}/download`;
-        const response = await this.#getOpen(apiUrl, {});
-
-        return response;
+        return await this.#getOpen(apiUrl, {});
     }
 
     /**
@@ -313,7 +311,7 @@ export class SpinShareClient {
         const apiUrl = `${this.apiBase}/connect/validateToken`;
 
         try {
-            const response = await this.#getConnect(apiUrl, token, {});
+            await this.#getConnect(apiUrl, token, {});
             return true;
         } catch(e) {
             return false;
@@ -404,7 +402,7 @@ export class SpinShareClient {
 
     async #postConnect(endpoint, token, body, params) {
         const isFormData = body && typeof body === 'object' && body.useFormData;
-        let requestBody = null;
+        let requestBody;
         if(isFormData) {
             requestBody = new FormData();
             for(const key in body) {
