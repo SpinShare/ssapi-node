@@ -1,6 +1,6 @@
 {
   "name": "@spinshare/api-js",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "vitest",
+    "test": "vitest --disable-console-intercept ",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"

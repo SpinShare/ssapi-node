@@ -2,11 +2,6 @@ import axios from "axios";
 
 class SpinShareClient {
     apiBase = "https://spinsha.re/api";
-    connectApiKey = "";
-
-    constructor(newConnectApiKey = "") {
-        this.connectApiKey = newConnectApiKey;
-    }
 
     /**
      * @param {string} newApiBase
@@ -14,14 +9,6 @@ class SpinShareClient {
      */
     setApiBase(newApiBase) {
         this.apiBase = newApiBase;
-    }
-
-    /**
-     * @param {string} newConnectApiKey
-     * @return {void}
-     */
-    setConnectApiKey(newConnectApiKey) {
-        this.connectApiKey = newConnectApiKey;
     }
 
     /**
@@ -313,49 +300,133 @@ class SpinShareClient {
         return response.data;
     }
 
-    async connectGetToken(code) {
+    async connectGetToken(apiKey, code) {
+        const apiUrl = `${this.apiBase}/connect/getToken`;
+        const response = await this.#getOpen(apiUrl, {
+            connectAppApiKey: apiKey,
+            connectCode: code,
+        });
 
+        return response.data;
     }
     async connectValidateToken(token) {
+        const apiUrl = `${this.apiBase}/connect/validateToken`;
 
+        try {
+            const response = await this.#getConnect(apiUrl, token, {});
+            return true;
+        } catch(e) {
+            return false;
+        }
     }
 
     async connectGetProfile(token) {
+        const apiUrl = `${this.apiBase}/connect/profile`;
+        const response = await this.#getConnect(apiUrl, token, {});
 
+        return response.data;
     }
     async connectGetPlaylists(token) {
+        const apiUrl = `${this.apiBase}/connect/playlists`;
+        const response = await this.#getConnect(apiUrl, token, {});
 
+        return response.data;
     }
 
     async connectGetNotifications(token) {
+        const apiUrl = `${this.apiBase}/connect/getNotifications`;
+        const response = await this.#getConnect(apiUrl, token, {});
 
+        return response.data;
     }
     async connectClearNotification(token, notificationId) {
+        const apiUrl = `${this.apiBase}/connect/clearNotification`;
+        const response = await this.#getConnect(apiUrl, token, {
+            notificationID: notificationId,
+        });
 
+        return response.data;
     }
     async connectClearAllNotifications(token) {
+        const apiUrl = `${this.apiBase}/connect/clearAllNotifications`;
+        const response = await this.#getConnect(apiUrl, token, {});
 
+        return response.data;
     }
 
     async connectGetReview(token, chartId) {
+        const apiUrl = `${this.apiBase}/connect/reviews/${chartId}/get`;
+        const response = await this.#getConnect(apiUrl, token, {});
 
+        return response.data;
     }
     async connectAddReview(token, chartId, recommended, comment) {
-
+        const apiUrl = `${this.apiBase}/connect/reviews/${chartId}/add`;
+        const response = await this.#postConnect(apiUrl, token, {
+            useFormData: true,
+            recommended: recommended ? 1 : 0,
+            comment: comment,
+        });
+        return response.data;
     }
 
     async #getOpen(endpoint, params) {
-        const response = await axios.get(endpoint, {});
+        const response = await axios.get(endpoint, {
+            params: params,
+        });
         this.#checkResponse(response.data);
 
         return response.data;
     }
 
-    async #postOpen(endpoint, params) {
-        const response = await axios.post(endpoint, JSON.stringify(params), {});
+    async #postOpen(endpoint, body, params) {
+        const response = await axios.post(endpoint, JSON.stringify(body), {
+            params: {
+                ...params,
+            }
+        });
         this.#checkResponse(response.data);
 
         return response.data;
+    }
+
+    async #getConnect(endpoint, token, params) {
+        const response = await axios.get(endpoint, {
+            params: {
+                connectToken: token,
+                ...params
+            },
+        });
+        this.#checkResponse(response.data);
+
+        return response.data;
+    }
+
+    async #postConnect(endpoint, token, body, params) {
+        const isFormData = body && typeof body === 'object' && body.useFormData;
+        let requestBody = null;
+        if(isFormData) {
+            requestBody = new FormData();
+            for(const key in body) {
+                requestBody.append(key, body[key]);
+            }
+        } else {
+            requestBody = JSON.stringify(body);
+        }
+        const contentType = isFormData ? 'application/x-www-form-urlencoded' : 'application/json';
+
+        const response = await axios.post(endpoint, requestBody, {
+            headers: {
+                'Content-Type': contentType,
+            },
+            params: {
+                connectToken: token,
+                ...params,
+            },
+        });
+        this.#checkResponse(response.data);
+
+        return response;
     }
 
     #checkResponse(response) {
@@ -381,5 +452,10 @@ export class NotFoundError extends Error {}
 export class UnauthenticatedError extends Error {}
 export class ApiStatusError extends Error {}
 export class ServerError extends Error {}
+
+export const NOTIFICATION_TYPE_SYSTEM = 0;
+export const NOTIFICATION_TYPE_NEWREVIEW = 1;
+export const NOTIFICATION_TYPE_NEWSPINPLAY = 2;
+export const NOTIFICATION_TYPE_RECEIVEDCARD = 3;
 
 export default SpinShareClient;
