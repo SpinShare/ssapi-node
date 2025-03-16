@@ -21,7 +21,8 @@ class SpinShareClient {
     }
 
     /**
-     * @param {string} query - The search term or keywords to find matching charts.
+     * Returns charts based on the searchQuery provided.
+     * @param {string} searchQuery - The search term or keywords to find matching charts.
      * @param {object} options - Options
      * @param {boolean} options.diffEasy - Whether to include charts with the "Easy" difficulty.
      * @param {boolean} options.diffNormal - Whether to include charts with the "Normal" difficulty.
@@ -33,10 +34,10 @@ class SpinShareClient {
      * @param {boolean} options.showExplicit - Whether to include explicit content in the results.
      * @return {Promise<Array>} A promise that resolves to an array of charts matching the search criteria.
      */
-    async searchCharts(query, options = {}) {
+    async searchCharts(searchQuery, options = {}) {
         const apiUrl = `${this.apiBase}/searchCharts`;
         const response = await this.#postOpen(apiUrl, {
-            searchQuery: query,
+            searchQuery,
             ...options
         });
 
@@ -44,40 +45,83 @@ class SpinShareClient {
     }
 
     /**
-     * @param query
+     * Returns playlists based on the searchQuery provided.
+     * @param searchQuery
      * @returns {Promise<Object>}
      */
-    async searchPlaylists(query){
+    async searchPlaylists(searchQuery){
         const apiUrl = `${this.apiBase}/searchPlaylists`;
         const response = await this.#postOpen(apiUrl, {
-            searchQuery: query,
+            searchQuery,
         });
 
         return response.data;
-    }
-    async searchUsers(query){
-        const apiUrl = `${this.apiBase}/searchUsers`;
-        const response = await this.#postOpen(apiUrl, {
-            searchQuery: query,
-        });
-
-        return response.data;
-    }
-
-    async getNewCharts(offset) {
-
-    }
-    async getUpdatedCharts(offset) {
-
-    }
-    async getHotThisWeekCharts(offset) {
-
-    }
-    async getHotThisMonthCharts(offset) {
-
     }
 
     /**
+     * Returns users based on the searchQuery provided.
+     * @param searchQuery
+     * @returns {Promise<*>}
+     */
+    async searchUsers(searchQuery){
+        const apiUrl = `${this.apiBase}/searchUsers`;
+        const response = await this.#postOpen(apiUrl, {
+            searchQuery,
+        });
+
+        return response.data;
+    }
+
+    /**
+     * Returns the 12 newest songs. Use offset for pagination.
+     * @param offset
+     * @returns {Promise<*>}
+     */
+    async getNewCharts(offset) {
+        const apiUrl = `${this.apiBase}/songs/new/${offset}`;
+        const response = await this.#getOpen(apiUrl, {});
+
+        return response.data;
+    }
+
+    /**
+     * Returns 12 songs that were last updated. Use offset for pagination.
+     * @param offset
+     * @returns {Promise<*>}
+     */
+    async getUpdatedCharts(offset) {
+        const apiUrl = `${this.apiBase}/songs/updated/${offset}`;
+        const response = await this.#getOpen(apiUrl, {});
+
+        return response.data;
+    }
+
+    /**
+     * Returns the 12 most popular songs from the last 7 days. Use offset for pagination.
+     * @param offset
+     * @returns {Promise<*>}
+     */
+    async getHotThisWeekCharts(offset) {
+        const apiUrl = `${this.apiBase}/songs/hotThisWeek/${offset}`;
+        const response = await this.#getOpen(apiUrl, {});
+
+        return response.data;
+    }
+
+    /**
+     * Returns the 12 most popular songs from the last month. Use offset for pagination.
+     * @param offset
+     * @returns {Promise<*>}
+     */
+    async getHotThisMonthCharts(offset) {
+        const apiUrl = `${this.apiBase}/songs/hotThisMonth/${offset}`;
+        const response = await this.#getOpen(apiUrl, {});
+
+        return response.data;
+    }
+
+    /**
+     * Get's the latest version of the SpinShare Client for a set platform.
      * @param {string} platform
      * @returns {Promise<Object>}
      */
@@ -89,6 +133,7 @@ class SpinShareClient {
     }
 
     /**
+     * Returns all active promos.
      * @returns {Promise<Array>}
      */
     async getActivePromos() {
@@ -98,51 +143,132 @@ class SpinShareClient {
         return response.data;
     }
 
+    /**
+     * Returns more detailed information about a chart.
+     * @param chartIdOrReference
+     * @returns {Promise<*>}
+     */
     async getChartDetail(chartIdOrReference) {
+        const apiUrl = `${this.apiBase}/song/${chartIdOrReference}`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
+
+    /**
+     * Returns all active reviews of a song.
+     * @param chartIdOrReference
+     * @returns {Promise<*>}
+     */
     async getChartReviews(chartIdOrReference) {
+        const apiUrl = `${this.apiBase}/song/${chartIdOrReference}/reviews`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
+
+    /**
+     * Returns all active SpinPlays of a song.
+     * @param chartIdOrReference
+     * @returns {Promise<*>}
+     */
     async getChartSpinPlays(chartIdOrReference) {
+        const apiUrl = `${this.apiBase}/song/${chartIdOrReference}/spinplays`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
+
+    /**
+     * Returns all playlists that includes a song.
+     * @param chartIdOrReference
+     * @returns {Promise<*>}
+     */
     async getChartPlaylists(chartIdOrReference) {
+        const apiUrl = `${this.apiBase}/song/${chartIdOrReference}/playlists`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
-    async getChartDownload(chartIdOrReference) {
 
+    /**
+     * Generates a download zip and returns it.
+     * @param chartIdOrReference
+     * @returns {Promise<*>}
+     */
+    async getChartDownload(chartIdOrReference) {
+        const apiUrl = `${this.apiBase}/song/${chartIdOrReference}/download`;
+        const response = await this.#getOpen(apiUrl, {});
+
+        return response;
     }
 
     async getPlaylistDetail(playlistId) {
+        const apiUrl = `${this.apiBase}/playlist/${playlistId}`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
 
     async getUserDetail(userId) {
+        const apiUrl = `${this.apiBase}/user/${userId}`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
     async getUserCharts(userId) {
+        const apiUrl = `${this.apiBase}/user/${userId}/charts`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
     async getUserPlaylists(userId) {
+        const apiUrl = `${this.apiBase}/user/${userId}/playlists`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
     async getUserReviews(userId) {
+        const apiUrl = `${this.apiBase}/user/${userId}/reviews`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
     async getUserSpinPlays(userId) {
+        const apiUrl = `${this.apiBase}/user/${userId}/spinplays`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
 
     async getTournamentMappool() {
+        const apiUrl = `${this.apiBase}/tournament/mappool`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
 
+    /**
+     * Returns a list of all DLCs
+     * @returns {Promise<*>}
+     */
     async getDlcs() {
+        const apiUrl = `${this.apiBase}/dlc`;
+        const response = await this.#getOpen(apiUrl, {});
 
+        return response.data;
     }
-    async verifyDlcHash(dlcHash) {
 
+    /**
+     * Returns the DLC of a DLC MD5 hash if it is valid or a 404 response if it is invalid
+     * @param dlcHash
+     * @returns {Promise<*>}
+     */
+    async verifyDlcHash(dlcHash) {
+        const apiUrl = `${this.apiBase}/dlc/verify/${dlcHash}`;
+        const response = await this.#getOpen(apiUrl, {});
+
+        return response.data;
     }
 
     async connectGetToken(code) {
@@ -191,18 +317,20 @@ class SpinShareClient {
     }
 
     #checkResponse(response) {
-        if(response.version !== 1) throw new ApiMismatchError(
-            `Unsupported Version: ${response.version}`
-        )
         if(response.status === 404) throw new NotFoundError(
             `Not Found`
         )
         if(response.status === 403) throw new UnauthenticatedError(
             `This API requires a connect token and an api key and it was not provided or invalid`
         )
-        if(response.status !== 200) throw new ApiStatusError(
+        if(response.status !== 200 && response.status !== undefined) throw new ApiStatusError(
             `Unexpected status code: ${response.status}, expected 200`
         )
+        if(response.status === 200) {
+            if (response.version !== 1) throw new ApiMismatchError(
+                `Unsupported Version: ${response.version}`
+            )
+        }
     }
 }
 
@@ -210,5 +338,6 @@ export class ApiMismatchError extends Error {}
 export class NotFoundError extends Error {}
 export class UnauthenticatedError extends Error {}
 export class ApiStatusError extends Error {}
+export class ServerError extends Error {}
 
 export default SpinShareClient;
