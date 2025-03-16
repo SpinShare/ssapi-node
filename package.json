@@ -5,7 +5,8 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "files": [
-    "dist"
+    "dist/index.cjs.js",
+    "dist/index.es.js"
   ],
   "scripts": {
     "test": "vitest --disable-console-intercept ",
