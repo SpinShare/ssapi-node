@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import SpinShareClient from "../src/index.js";
+import {SpinShareClient} from "../src/index.js";
 
 describe("apiBase", () => {
     it("should be defined by default", () => {

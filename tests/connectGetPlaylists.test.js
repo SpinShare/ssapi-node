@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import SpinShareClient, {NotFoundError, UnauthenticatedError} from "../src/index.js";
+import {SpinShareClient, UnauthenticatedError} from "../src/index.js";
 import axios from "axios";
 
 vi.mock("axios");

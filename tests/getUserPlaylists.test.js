@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import SpinShareClient, {NotFoundError} from "../src/index.js";
+import { describe, it, expect } from "vitest";
+import {NotFoundError, SpinShareClient} from "../src/index.js";
 
 describe("getUserPlaylists", () => {
     it("should return playlists of a user by id", async () => {

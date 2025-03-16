@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import SpinShareClient, {NotFoundError} from "../src/index.js";
+import {NotFoundError, SpinShareClient} from "../src/index.js";
 
 describe("getClientLatestVersion", () => {
     it("should return the latest windows client version", async () => {

@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import SpinShareClient, {NotFoundError, ServerError} from "../src/index.js";
+import { describe, it, expect } from "vitest";
+import {SpinShareClient} from "../src/index.js";
 
 describe("getChartDownload", () => {
     it("should return a zip by id", async () => {

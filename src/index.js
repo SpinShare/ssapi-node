@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class SpinShareClient {
+export class SpinShareClient {
     apiBase = "https://spinsha.re/api";
 
     /**
@@ -457,5 +457,3 @@ export const NOTIFICATION_TYPE_SYSTEM = 0;
 export const NOTIFICATION_TYPE_NEWREVIEW = 1;
 export const NOTIFICATION_TYPE_NEWSPINPLAY = 2;
 export const NOTIFICATION_TYPE_RECEIVEDCARD = 3;
-
-export default SpinShareClient;
